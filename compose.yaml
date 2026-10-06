@@ -1,0 +1,13 @@
+# Compose deploys ONLY this experimental service.
+# There is intentionally no message middleware (no broker, no queue service):
+# the six directed FIFO channels live inside the Go process.
+services:
+  snapshot-demo:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: "8080"                 # HTTP listen port
+      INITIAL_BALANCE: "1000"      # starting chips per node (total supply = 3x)
+      TRAFFIC_INTERVAL_MS: "100"   # background transfer cadence; 0 disables
+    restart: unless-stopped
